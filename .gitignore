@@ -1,0 +1,6 @@
+Makefile
+MaskedItem.pro.user
+*.o
+moc_*
+*~
+*.swp
