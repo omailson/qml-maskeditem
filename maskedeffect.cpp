@@ -15,17 +15,33 @@ QPixmap MaskedEffect::mask() const
     return m_mask;
 }
 
+void MaskedEffect::setSize(const QSize &newSize)
+{
+    if (m_size != newSize) {
+        m_size = newSize;
+
+        sourceChanged(QGraphicsEffect::SourceInvalidated);
+    }
+}
+
+QSize MaskedEffect::size() const
+{
+    return m_size;
+}
+
 void MaskedEffect::draw(QPainter *painter)
 {
     QPoint offset;
-    const QPixmap pixmapp = sourcePixmap(Qt::LogicalCoordinates, &offset);
 
-    QPixmap pixmap(m_mask.size());
+    QPixmap sourceItem = sourcePixmap(Qt::LogicalCoordinates, &offset);
+    QPixmap mask = (m_mask.size() == size()) ? m_mask : m_mask.scaled(size());
+
+    QPixmap pixmap(size());
     pixmap.fill(Qt::transparent);
-    QPainter itemPainter(&pixmap);
-    itemPainter.drawPixmap(0,0, pixmapp);
 
+    QPainter itemPainter(&pixmap);
+    itemPainter.drawPixmap(offset, sourceItem);
     itemPainter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
-    itemPainter.drawPixmap(0,0, m_mask);
+    itemPainter.drawPixmap(0,0, mask);
     painter->drawPixmap(0,0, pixmap);
 }
