@@ -23,8 +23,6 @@ public:
 signals:
     void maskSourceChanged();
 
-public slots:
-
 private:
     QUrl m_maskSource;
 

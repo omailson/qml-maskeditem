@@ -20,13 +20,13 @@ void MaskedItem::setMaskSource(const QUrl &value)
     if (m_maskSource != value) {
         m_maskSource = value;
         m_mask = QPixmap(value.toLocalFile());
-        update();
 
         setImplicitWidth(m_mask.width());
         setImplicitHeight(m_mask.height());
 
         m_maskedEffect->setMask(m_mask);
 
+        update();
         emit maskSourceChanged();
     }
 }

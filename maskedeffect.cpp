@@ -17,11 +17,8 @@ QPixmap MaskedEffect::mask() const
 
 void MaskedEffect::setSize(const QSize &newSize)
 {
-    if (m_size != newSize) {
+    if (m_size != newSize)
         m_size = newSize;
-
-        sourceChanged(QGraphicsEffect::SourceInvalidated);
-    }
 }
 
 QSize MaskedEffect::size() const
