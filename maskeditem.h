@@ -24,6 +24,8 @@ signals:
     void maskSourceChanged();
 
 private:
+	QString urlToLocalFileOrQrc(const QUrl &url);
+
     QUrl m_maskSource;
 
     QPixmap m_mask;
