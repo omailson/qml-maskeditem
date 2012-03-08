@@ -1,10 +1,10 @@
 #ifndef MASKEDITEM_H
 #define MASKEDITEM_H
 
-#include <QDeclarativeItem>
-#include <QPixmap>
-
 #include "maskedeffect.h"
+#include <QDeclarativeItem>
+
+class QPixmap;
 
 class MaskedItem : public QDeclarativeItem
 {
@@ -13,6 +13,7 @@ class MaskedItem : public QDeclarativeItem
 
 public:
     MaskedItem(QDeclarativeItem *parent = 0);
+    ~MaskedItem();
 
     QUrl maskSource() const;
     void setMaskSource(const QUrl &value);
@@ -24,14 +25,12 @@ signals:
     void maskSourceChanged();
 
 private:
-	QString urlToLocalFileOrQrc(const QUrl &url);
-
     QUrl m_maskSource;
-
     QPixmap m_mask;
     MaskedEffect *m_maskedEffect;
-
     QRectF m_geometry;
+
+    QString urlToLocalFileOrQrc(const QUrl &url);
 };
 
 #endif // MASKEDITEM_H

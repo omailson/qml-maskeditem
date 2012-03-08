@@ -1,13 +1,23 @@
 #include "maskeditem.h"
 
-MaskedItem::MaskedItem(QDeclarativeItem *parent) :
-    QDeclarativeItem(parent)
+#include <QPixmap>
+
+MaskedItem::MaskedItem(QDeclarativeItem *parent)
+  : QDeclarativeItem(parent)
+  , m_maskSource(QUrl())
+  , m_mask(QPixmap())
   , m_maskedEffect(new MaskedEffect)
+  , m_geometry(QRectF())
 {
     setFlag(QDeclarativeItem::ItemHasNoContents, false);
     setFlag(QDeclarativeItem::ItemClipsToShape, true);
 
     setGraphicsEffect(m_maskedEffect);
+}
+
+MaskedItem::~MaskedItem()
+{
+    delete m_maskedEffect;
 }
 
 QUrl MaskedItem::maskSource() const
@@ -17,18 +27,19 @@ QUrl MaskedItem::maskSource() const
 
 void MaskedItem::setMaskSource(const QUrl &value)
 {
-    if (m_maskSource != value) {
-        m_maskSource = value;
-        m_mask = QPixmap(urlToLocalFileOrQrc(m_maskSource));
+    if (m_maskSource == value)
+        return;
 
-        setImplicitWidth(m_mask.width());
-        setImplicitHeight(m_mask.height());
+    m_maskSource = value;
+    m_mask = QPixmap(urlToLocalFileOrQrc(m_maskSource));
 
-        m_maskedEffect->setMask(m_mask);
+    setImplicitWidth(m_mask.width());
+    setImplicitHeight(m_mask.height());
 
-        update();
-        emit maskSourceChanged();
-    }
+    m_maskedEffect->setMask(m_mask);
+
+    update();
+    emit maskSourceChanged();
 }
 
 void MaskedItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)

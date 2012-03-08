@@ -2,10 +2,8 @@
 #define MASKEDEFFECT_H
 
 #include <QGraphicsEffect>
-#include <QGraphicsItem>
-#include <QPainter>
 
-#include <QDebug>
+class QPainter;
 
 class MaskedEffect : public QGraphicsEffect
 {
@@ -24,10 +22,6 @@ public:
 
     void setSize(const QSize &);
     QSize size() const;
-
-signals:
-
-public slots:
 
 private:
     QPixmap m_mask;
